@@ -10,15 +10,23 @@ namespace Intel_Investigation.Objects.Abstracts
     abstract class A_IranianAgent
     {
         protected AgentRank AgentRank;
+        protected SensorType[] Sensors;
         protected int SensorsNumber;
-        protected AgentRank[] AgentRanksList;
+        protected bool isExposed;
 
 
-        public A_IranianAgent(AgentRank agentRank, AgentRank[] agentRanksList, int sensorsNumber)
+        public A_IranianAgent(AgentRank agentRank, SensorType[] Sensors)
         {
             this.AgentRank = agentRank;
-            this.AgentRanksList = agentRanksList;
-            this.SensorsNumber = sensorsNumber;
+            this.Sensors = Sensors;
+            this.SensorsNumber = Sensors.Length;
+            this.isExposed = false;
+        }
+
+        public void Expose()
+        {
+            Console.WriteLine($"\n{this.AgentRank} Iranian agent has exposed\n");
+            this.isExposed = true;
         }
     }
 }
