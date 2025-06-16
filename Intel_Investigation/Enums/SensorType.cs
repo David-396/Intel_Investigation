@@ -9,6 +9,7 @@ namespace Intel_Investigation.Enums
     public enum SensorType
     {
         Basic,
-        Thermal
+        Thermal,
+        PulseSensor
     }
 }

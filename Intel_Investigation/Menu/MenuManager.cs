@@ -15,10 +15,15 @@ namespace Intel_Investigation.Menu
     {
         // fields to create a random rank/sensorsArr
         static AgentRank[] iranianAgentRanks = { AgentRank.FootSoldier, AgentRank.SquadLeader };
-        static string[] sensorsTypes = { "basic", "thermal"};
+
 
         static Dictionary<string, A_Sensor> sensorInstances = new Dictionary<string, A_Sensor> { { "basic", new BasicSensor() },
-                                                                                                 {"thermal", new ThermalSensor() } };
+                                                                                                 {"thermal", new ThermalSensor() },
+                                                                                                 {"pulse sensor", new PulseSensor() } };
+
+        static Dictionary<AgentRank, A_IranianAgent> agentInstances = new Dictionary<AgentRank, A_IranianAgent> { { AgentRank.FootSoldier, new FootSoldier(RandomSensorArr((int)AgentRank.FootSoldier)) },
+                                                                                                                  { AgentRank.SquadLeader, new SquadLeader(RandomSensorArr((int)AgentRank.SquadLeader)) } };
+
 
         static A_IranianAgent currentIranianAgent;
         static string[] currentIrnSensors;
@@ -55,7 +60,7 @@ namespace Intel_Investigation.Menu
         {
             foreach (string str in arr)
             {
-                Console.Write(" - " + str.Normalize());
+                Console.Write(" - " + str);
             }
             Console.WriteLine();
         }
@@ -72,7 +77,7 @@ namespace Intel_Investigation.Menu
         // main function
         public static void Run()
         {
-            CreateFootSoldier();
+            CreateIranAgent(AgentRank.FootSoldier);
             PrintMenu();
 
             do
@@ -126,28 +131,31 @@ namespace Intel_Investigation.Menu
         static string[] RandomSensorArr(int selfSensorNumber)
         {
             Random rand = new Random();
-            int index = rand.Next(sensorsTypes.Length);
+
+            string[] sensorsTypes = DictionaryKToArr(sensorInstances);
 
             string[] randomSensorsArr = new string[selfSensorNumber];
+
+            int index;
             for (int i=0; i<selfSensorNumber; i++)
             {
-                randomSensorsArr[i] = sensorsTypes[index];
                 index = rand.Next(sensorsTypes.Length);
+                randomSensorsArr[i] = sensorsTypes[index];
             }
 
             return randomSensorsArr;
         }
 
 
-        // create an foot soldier instance
-        static void CreateFootSoldier()
+        // create an Iranian agent instance
+        static void CreateIranAgent(AgentRank rank)
         {
-            string[] sensorsArr = RandomSensorArr((int)AgentRank.FootSoldier);
-            currentIranianAgent = new FootSoldier(sensorsArr);
-            currentIrnSensors = sensorsArr;
-            sensorsGuessed = new string[sensorsArr.Length];
-            sensorsNumber = sensorsArr.Length;
+            currentIranianAgent = agentInstances[rank];
+            currentIrnSensors = currentIranianAgent.Sensors;
+            sensorsGuessed = new string[currentIranianAgent.SensorsNumber];
+            sensorsNumber = currentIranianAgent.SensorsNumber;
         }
+
 
         // get and validate the index from user
         static int GetIndex(int limit)
@@ -173,6 +181,7 @@ namespace Intel_Investigation.Menu
             return sensor;
         }
 
+
         // check if two arrays equals in theirs content
         static bool ArrEqual(string[] arr1, string[] arr2)
         {
@@ -188,6 +197,19 @@ namespace Intel_Investigation.Menu
                 }
             }
             return true;
+        }
+
+        // dictionary keys to array
+        static string[] DictionaryKToArr(Dictionary<string, A_Sensor> dict)
+        {
+            string[] arr = new string[dict.Count];
+            int i = 0;
+            foreach(string key in dict.Keys)
+            {
+                arr[i] = key;
+                i++;
+            }
+            return arr;
         }
         
 

@@ -9,9 +9,9 @@ namespace Intel_Investigation.Objects.Abstracts
 {
     abstract class A_IranianAgent
     {
-        protected AgentRank AgentRank;
-        protected string[] Sensors;
-        protected int SensorsNumber;
+        public AgentRank AgentRank { get; }
+        public string[] Sensors { get; }
+        public int SensorsNumber {  get; }
         protected bool isExposed;
 
 
@@ -28,5 +28,7 @@ namespace Intel_Investigation.Objects.Abstracts
             Console.WriteLine($"\n{this.AgentRank} Iranian agent has exposed\n");
             this.isExposed = true;
         }
+
+
     }
 }
