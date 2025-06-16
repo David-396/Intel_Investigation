@@ -17,11 +17,15 @@ namespace Intel_Investigation.Menu
         static AgentRank[] iranianAgentRanks = { AgentRank.FootSoldier, AgentRank.SquadLeader };
         static SensorType[] sensorsTypes = { SensorType.Thermal};
 
+        static Dictionary<string, A_Sensor> sensorInstances = new Dictionary<string, A_Sensor> { { "Basic", new BasicSensor() } };
+
         static A_IranianAgent currentIranianAgent;
         static SensorType[] currentIrnSensors;
         static SensorType[] sensorsGuessed;
         static int sensorsNumber;
         static int rightAnswers = 0;
+
+
 
 
         // prints functions
@@ -38,6 +42,10 @@ namespace Intel_Investigation.Menu
             Console.WriteLine($"\nenter the sensor you think : ");
             PrintArr(sensorArr);
         }
+        static void PrintWrongSensor()
+        {
+            Console.WriteLine("wrong sensor. please enter a valid one ");
+        }
         static void PrintHowMuchRightAnswers()
         {
             Console.WriteLine($"you right in {rightAnswers}/{sensorsNumber}");
@@ -49,6 +57,10 @@ namespace Intel_Investigation.Menu
                 Console.Write(" - " + obj.ToString());
             }
             Console.WriteLine();
+        }
+        static void PrintRightAnswer()
+        {
+            Console.WriteLine("you right!");
         }
 
 
@@ -64,13 +76,14 @@ namespace Intel_Investigation.Menu
                 int index = GetIndex(sensorsNumber);
 
                 PrintEnterSensor(currentIrnSensors);
-                string sensor = Console.ReadLine();
+                string sensor = GetSensor();
 
                 SensorType rightSensor;
-                if (Enum.TryParse<SensorType>(sensor, out rightSensor) && rightSensor == currentIrnSensors[index])
+                if (Enum.TryParse(sensor, out rightSensor) && rightSensor == currentIrnSensors[index])
                 {
                     sensorsGuessed[index] = rightSensor;
                     rightAnswers++;
+                    PrintRightAnswer();
                 }
 
                 PrintHowMuchRightAnswers();
@@ -128,6 +141,17 @@ namespace Intel_Investigation.Menu
                 input = Console.ReadLine();
             }
             return index;
+        }
+        static string GetSensor()
+        {
+            string sensor = Console.ReadLine();
+
+            while (!sensorInstances.ContainsKey(sensor) || sensor == null)
+            {
+                PrintWrongSensor();
+                sensor = Console.ReadLine();
+            }
+            return sensor;
         }
         
 

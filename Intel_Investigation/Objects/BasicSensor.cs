@@ -11,6 +11,12 @@ namespace Intel_Investigation.Objects
 {
     internal class BasicSensor : A_Sensor
     {
-        public BasicSensor(SensorType type) : base(type) { }
+        public BasicSensor() : base(SensorType.Basic) { }
+
+
+        public override void Active()
+        {
+            Console.WriteLine($"{this.type} sensor is active");
+        }
     }
 }

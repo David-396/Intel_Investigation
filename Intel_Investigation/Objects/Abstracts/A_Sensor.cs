@@ -18,10 +18,7 @@ namespace Intel_Investigation.Objects.Abstracts
         }
 
 
-        public virtual void Active()
-        {
-            Console.WriteLine($"{this.type} sensor is active");
-        }
+        public abstract void Active();
 
     }
 }
