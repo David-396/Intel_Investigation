@@ -10,12 +10,12 @@ namespace Intel_Investigation.Objects.Abstracts
     abstract class A_IranianAgent
     {
         protected AgentRank AgentRank;
-        protected SensorType[] Sensors;
+        protected string[] Sensors;
         protected int SensorsNumber;
         protected bool isExposed;
 
 
-        public A_IranianAgent(AgentRank agentRank, SensorType[] Sensors)
+        public A_IranianAgent(AgentRank agentRank, string[] Sensors)
         {
             this.AgentRank = agentRank;
             this.Sensors = Sensors;

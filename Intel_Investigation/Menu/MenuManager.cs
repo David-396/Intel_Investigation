@@ -15,13 +15,14 @@ namespace Intel_Investigation.Menu
     {
         // fields to create a random rank/sensorsArr
         static AgentRank[] iranianAgentRanks = { AgentRank.FootSoldier, AgentRank.SquadLeader };
-        static SensorType[] sensorsTypes = { SensorType.Thermal};
+        static string[] sensorsTypes = { "basic", "thermal"};
 
-        static Dictionary<string, A_Sensor> sensorInstances = new Dictionary<string, A_Sensor> { { "Basic", new BasicSensor() } };
+        static Dictionary<string, A_Sensor> sensorInstances = new Dictionary<string, A_Sensor> { { "basic", new BasicSensor() },
+                                                                                                 {"thermal", new ThermalSensor() } };
 
         static A_IranianAgent currentIranianAgent;
-        static SensorType[] currentIrnSensors;
-        static SensorType[] sensorsGuessed;
+        static string[] currentIrnSensors;
+        static string[] sensorsGuessed;
         static int sensorsNumber;
         static int rightAnswers = 0;
 
@@ -35,9 +36,9 @@ namespace Intel_Investigation.Menu
         }
         static void PrintEnterIndex(int end)
         {
-            Console.WriteLine($"\nenter the index of the sensor you want to guess (0 - {end}) : ");
+            Console.WriteLine($"\nenter the index of the sensor you want to guess (0 - {end - 1}) : ");
         }
-        static void PrintEnterSensor(SensorType[] sensorArr)
+        static void PrintEnterSensor(string[] sensorArr)
         {
             Console.WriteLine($"\nenter the sensor you think : ");
             PrintArr(sensorArr);
@@ -50,17 +51,21 @@ namespace Intel_Investigation.Menu
         {
             Console.WriteLine($"you right in {rightAnswers}/{sensorsNumber}");
         }
-        static void PrintArr(SensorType[] arr)
+        static void PrintArr(string[] arr)
         {
-            foreach (SensorType obj in arr)
+            foreach (string str in arr)
             {
-                Console.Write(" - " + obj.ToString());
+                Console.Write(" - " + str.Normalize());
             }
             Console.WriteLine();
         }
         static void PrintRightAnswer()
         {
             Console.WriteLine("you right!");
+        }
+        static void PrintWonAndExit()
+        {
+            Console.WriteLine("you won!\nbye..");
         }
 
 
@@ -77,20 +82,34 @@ namespace Intel_Investigation.Menu
 
                 PrintEnterSensor(currentIrnSensors);
                 string sensor = GetSensor();
-
-                SensorType rightSensor;
-                if (Enum.TryParse(sensor, out rightSensor) && rightSensor == currentIrnSensors[index])
+                
+                if(sensor == currentIrnSensors[index])
                 {
-                    sensorsGuessed[index] = rightSensor;
-                    rightAnswers++;
-                    PrintRightAnswer();
+                    if(sensor != sensorsGuessed[index])
+                    {
+                        sensorInstances[sensor].Active();
+                        sensorsGuessed[index] = sensor;
+                        rightAnswers++;
+                        PrintRightAnswer();
+
+                    }
+                }
+                else
+                {
+                    if (sensorsGuessed[index] == currentIrnSensors[index])
+                    {
+                        sensorsGuessed[index] = sensor;
+                        if (rightAnswers > 0) rightAnswers--;
+                    }
+                    
                 }
 
                 PrintHowMuchRightAnswers();
 
-            } while (rightAnswers != sensorsNumber);
+            } while (!ArrEqual(currentIrnSensors, sensorsGuessed));
+
             currentIranianAgent.Expose();
-            Console.WriteLine("you won!\nbye..");
+            PrintWonAndExit();
 
         }
 
@@ -104,12 +123,12 @@ namespace Intel_Investigation.Menu
             AgentRank randomRank = iranianAgentRanks[index];
             return randomRank;
         }
-        static SensorType[] RandomSensorArr(int selfSensorNumber)
+        static string[] RandomSensorArr(int selfSensorNumber)
         {
             Random rand = new Random();
             int index = rand.Next(sensorsTypes.Length);
 
-            SensorType[] randomSensorsArr = new SensorType[selfSensorNumber];
+            string[] randomSensorsArr = new string[selfSensorNumber];
             for (int i=0; i<selfSensorNumber; i++)
             {
                 randomSensorsArr[i] = sensorsTypes[index];
@@ -123,10 +142,10 @@ namespace Intel_Investigation.Menu
         // create an foot soldier instance
         static void CreateFootSoldier()
         {
-            SensorType[] sensorsArr = RandomSensorArr((int)AgentRank.FootSoldier);
+            string[] sensorsArr = RandomSensorArr((int)AgentRank.FootSoldier);
             currentIranianAgent = new FootSoldier(sensorsArr);
             currentIrnSensors = sensorsArr;
-            sensorsGuessed = new SensorType[sensorsArr.Length];
+            sensorsGuessed = new string[sensorsArr.Length];
             sensorsNumber = sensorsArr.Length;
         }
 
@@ -144,14 +163,31 @@ namespace Intel_Investigation.Menu
         }
         static string GetSensor()
         {
-            string sensor = Console.ReadLine();
+            string sensor = Console.ReadLine().ToLower();
 
             while (!sensorInstances.ContainsKey(sensor) || sensor == null)
             {
                 PrintWrongSensor();
-                sensor = Console.ReadLine();
+                sensor = Console.ReadLine().ToLower();
             }
             return sensor;
+        }
+
+        // check if two arrays equals in theirs content
+        static bool ArrEqual(string[] arr1, string[] arr2)
+        {
+            if (arr1.Length != arr2.Length)
+            {
+                return false;
+            }
+            for(int i=0; i< arr1.Length; i++)
+            {
+                if(arr1[i] != arr2[i])
+                {
+                    return false;
+                }
+            }
+            return true;
         }
         
 
