@@ -11,6 +11,10 @@ namespace Intel_Investigation.Objects
 {
     internal class FootSoldier : A_IranianAgent
     {
-        public FootSoldier(string[] sensors) : base(AgentRank.FootSoldier, sensors) { }
+        public FootSoldier(string[] sensors) : base( sensors)
+        {
+            this.AgentRank = AgentRank.FootSoldier;
+        }
     }
+
 }

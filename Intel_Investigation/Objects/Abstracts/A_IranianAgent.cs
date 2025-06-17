@@ -9,18 +9,41 @@ namespace Intel_Investigation.Objects.Abstracts
 {
     abstract class A_IranianAgent
     {
-        protected AgentRank AgentRank;
-        protected string[] Sensors;
-        protected int SensorsNumber;
+        public int turns;
+        public AgentRank AgentRank { get; set; }
+        public string[] OriginalSensors { get; set; }
+        public string[] copiedSensors { get; set; }
+        public int guessedRight;
+        public int SensorsNumber {  get; }
+        public int sensorExploded { get; set; }
         protected bool isExposed;
+        public string lastSensor;
 
 
-        public A_IranianAgent(AgentRank agentRank, string[] Sensors)
+        public A_IranianAgent(string[] Sensors)
         {
-            this.AgentRank = agentRank;
-            this.Sensors = Sensors;
+            this.OriginalSensors = Sensors;
+            this.copiedSensors = Sensors;
             this.SensorsNumber = Sensors.Length;
             this.isExposed = false;
+            this.sensorExploded = 0;
+            this.guessedRight = 0;
+            this.turns = 0;
+        }
+
+        public virtual void CounterAttack()
+        {
+            this.PrintAttack();
+            this.RaiseTurn();
+        }
+
+        public void PrintAttack()
+        {
+            Console.WriteLine($"{this.AgentRank} is attacking back ");
+        }
+        public void RaiseTurn()
+        {
+            this.turns++;
         }
 
         public void Expose()
@@ -28,5 +51,17 @@ namespace Intel_Investigation.Objects.Abstracts
             Console.WriteLine($"\n{this.AgentRank} Iranian agent has exposed\n");
             this.isExposed = true;
         }
+
+        public void ResetTurns()
+        {
+            this.turns = 0;
+        }
+
+        public static int RandInt(int limit)
+        {
+            Random rnd = new Random();
+            return rnd.Next(limit);
+        }
+
     }
 }

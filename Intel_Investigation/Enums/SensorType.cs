@@ -8,7 +8,8 @@ namespace Intel_Investigation.Enums
 {
     public enum SensorType
     {
-        Basic,
-        Thermal
+        audio,
+        thermal,
+        pulse
     }
 }

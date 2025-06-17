@@ -9,14 +9,14 @@ using Intel_Investigation.Objects.Abstracts;
 
 namespace Intel_Investigation.Objects
 {
-    internal class BasicSensor : A_Sensor
+    internal class Audio : A_Sensor
     {
-        public BasicSensor() : base(SensorType.Basic) { }
+        public Audio(A_IranianAgent agent) : base(SensorType.audio, agent) { }
 
 
-        public override void Active()
+        public override bool Active()
         {
-            Console.WriteLine($"{this.type} sensor is active");
+            return base.Active();
         }
     }
 }
