@@ -18,6 +18,7 @@ namespace Intel_Investigation.Objects.Abstracts
         public int sensorExploded { get; set; }
         protected bool isExposed;
         public string lastSensor;
+        public bool ifReset;
 
 
         public A_IranianAgent(string[] Sensors)

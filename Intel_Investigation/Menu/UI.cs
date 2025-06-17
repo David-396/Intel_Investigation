@@ -42,7 +42,7 @@ namespace Intel_Investigation.Menu
         {
             Console.WriteLine("you won!\nbye..");
         }
-        public static void PrintFinalRes(int howMuch, int from)
+        public static void PrintFinalRes(float howMuch, float from)
         {
             Console.WriteLine($"your final result is : {(howMuch/from) * 100}");
         }

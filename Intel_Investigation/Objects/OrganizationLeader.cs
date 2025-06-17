@@ -28,6 +28,7 @@ namespace Intel_Investigation.Objects
 
             if(this.turns % 10 == 0)
             {
+                this.ifReset = true;
                 this.ResetSensorsLists();
                 this.ResetGeussedRight();
                 this.ResetSensorExploded();
@@ -39,8 +40,8 @@ namespace Intel_Investigation.Objects
         // resets functions
         public void ResetSensorsLists()
         {
-            this.OriginalSensors = MenuManager.RandomSensorArr((int)this.AgentRank);
-            this.copiedSensors = MenuManager.CopyArr(this.OriginalSensors);
+            this.OriginalSensors = Statics.RandomSensorArr((int)this.AgentRank, Statics.allSensors);
+            this.copiedSensors = Statics.CopyArr(this.OriginalSensors);
         }
         public void ResetGeussedRight()
         {

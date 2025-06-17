@@ -13,11 +13,6 @@ namespace Intel_Investigation.Menu
 {
     internal class MenuManager
     {
-        // fields to create a random rank/sensorsArr
-        static AgentRank[] allRanks = { AgentRank.FootSoldier, AgentRank.SquadLeader , AgentRank.SeniorCommander, AgentRank.OrganizationLeader};
-
-        static string[] allSensors = { "audio", "thermal", "pulse" };
-
 
         public A_IranianAgent currentIranianAgent;
         public A_Sensor[] sensorsInstances;
@@ -28,7 +23,7 @@ namespace Intel_Investigation.Menu
         public MenuManager(AgentRank rank)
         {
             this.currentIranianAgent = CreateAgent(rank);
-            this.currentIrnSensors = CopyArr(currentIranianAgent.OriginalSensors);
+            this.currentIrnSensors = Statics.CopyArr(this.currentIranianAgent.OriginalSensors);
             this.sensorsNumber = currentIranianAgent.SensorsNumber;
             this.sensorsInstances = SensorsToInstance();
         }
@@ -53,24 +48,26 @@ namespace Intel_Investigation.Menu
         }
 
         // create an Iranian agent instance
-        public A_IranianAgent CreateAgent(AgentRank rank)
+        public A_IranianAgent CreateAgent(AgentRank rank)   
         {
             switch (rank)
             {
                 case AgentRank.FootSoldier:
-                    return new FootSoldier(RandomSensorArr((int)rank));
+                    return new FootSoldier(Statics.RandomSensorArr((int)rank, Statics.allSensors));
 
                 case AgentRank.SquadLeader:
-                    return new SquadLeader(RandomSensorArr((int)rank));
+                    return new SquadLeader(Statics.RandomSensorArr((int)rank, Statics.allSensors));
+
+                case AgentRank.SeniorCommander:
+                    return new SeniorCommander(Statics.RandomSensorArr((int)rank, Statics.allSensors));
+
+                case AgentRank.OrganizationLeader:
+                    return new OrganizationLeader(Statics.RandomSensorArr((int)rank, Statics.allSensors));
 
                 default:
                     return null;
             }
         }                                                                                                            
-        
-
-
-        
         
 
 
@@ -83,30 +80,39 @@ namespace Intel_Investigation.Menu
             do
             {
                 UI.PrintEnterSensor(this.currentIrnSensors);
-                string sensor = GetSensor(allSensors);
+                string sensor = Statics.GetSensor(Statics.allSensors);
 
                 if (currentIrnSensors.Contains(sensor))
                 {
                     A_Sensor activate_sensor = FindSensorInstance(sensor, this.sensorsInstances);
+
                     if(activate_sensor != null)
                     {
-                        //this.currentIranianAgent.lastSensor = sensor;
                         activate_sensor.Active();
 
                     }
-                    
+
                 }
                 this.currentIranianAgent.CounterAttack();
+
+                if (this.currentIranianAgent.ifReset)
+                {
+                    this.UpdateSensorsLists();
+                    this.currentIranianAgent.ifReset = false;
+                }
+
                 UI.PrintHowMuchRightAnswers(currentIranianAgent.guessedRight, sensorsNumber);
 
-            } while (currentIranianAgent.SensorsNumber != currentIranianAgent.guessedRight - currentIranianAgent.sensorExploded);
+            } while (currentIranianAgent.guessedRight != currentIranianAgent.SensorsNumber - currentIranianAgent.sensorExploded);
 
             UI.PrintFinalRes(currentIranianAgent.guessedRight, currentIranianAgent.SensorsNumber);
             currentIranianAgent.Expose();
             UI.PrintWonAndExit();
         }
             
-            
+
+
+        // take a list of string sensors and returns a new list of their instances
         public A_Sensor[] SensorsToInstance()
         {
             A_Sensor[] sensorsToInstances = new A_Sensor[this.sensorsNumber];
@@ -119,6 +125,8 @@ namespace Intel_Investigation.Menu
             return sensorsToInstances;
         }
 
+
+        // returns an instance of sensor to activate
         static A_Sensor FindSensorInstance(string sensorName, A_Sensor[] sensors)
         {
             A_Sensor return_sensor = null;
@@ -137,100 +145,12 @@ namespace Intel_Investigation.Menu
         }
 
 
-        // create a random rank/sensors array
-        static AgentRank RandomIranianAgentRanks()
+
+        // reset function for organization leader
+        void UpdateSensorsLists()
         {
-            Random rand = new Random();
-            int index = rand.Next(allRanks.Length);
-            AgentRank randomRank = allRanks[index];
-            return randomRank;
-        }
-        public static string[] RandomSensorArr(int selfSensorNumber)
-        {
-            Random rand = new Random();
-
-            string[] randomSensorsArr = new string[selfSensorNumber];
-
-            int index;
-            for (int i=0; i<selfSensorNumber; i++)
-            {
-                index = rand.Next(allSensors.Length);
-                randomSensorsArr[i] = allSensors[index];
-            }
-
-            return randomSensorsArr;
-        }
-
-
-
-        // deep copy for an array
-        public static string[] CopyArr(string[] arr)
-        {
-            string[] newArr = new string[arr.Length];
-            int i = 0;
-            foreach(string str in  arr)
-            {
-                newArr[i] = str;
-                i++;
-            }
-            return newArr;
-        }
-
-
-        // get and validate the sensor from user
-        static string GetSensor(string[] allNames)
-        {
-            string sensor = Console.ReadLine().ToLower();
-
-            while (!allNames.Contains(sensor) || sensor == null)
-            {
-                UI.PrintWrongSensor();
-                sensor = Console.ReadLine().ToLower();
-            }
-            return sensor;
-        }
-
-
-        // check if two arrays equals in theirs content
-        static bool IfArrEqual(string[] arr1, string[] arr2)
-        {
-            if (arr1.Length != arr2.Length)
-            {
-                return false;
-            }
-            for(int i=0; i< arr1.Length; i++)
-            {
-                if(arr1[i] != arr2[i])
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        // dictionary keys to array
-        static string[] DictionaryKToArr(Dictionary<string, A_Sensor> dict)
-        {
-            string[] arr = new string[dict.Count];
-            int i = 0;
-            foreach(string key in dict.Keys)
-            {
-                arr[i] = key;
-                i++;
-            }
-            return arr;
-        }
-        
-        static bool IfArrEmpty(string[] arr)
-        {
-            foreach(string val in arr)
-            {
-                if (!string.IsNullOrEmpty(val))
-                {
-                    return false;
-                }
-            }
-            return true;
+            this.currentIrnSensors = Statics.CopyArr(this.currentIranianAgent.OriginalSensors);
+            this.sensorsInstances = SensorsToInstance();
         }
     }
 }

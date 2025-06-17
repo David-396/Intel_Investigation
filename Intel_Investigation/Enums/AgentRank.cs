@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Intel_Investigation.Enums
 {
-    enum AgentRank
+    public enum AgentRank
     {
         FootSoldier = 2,
         SquadLeader = 4,

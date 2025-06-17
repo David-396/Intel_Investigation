@@ -12,7 +12,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        MenuManager menu = new MenuManager(AgentRank.FootSoldier);
+        MenuManager menu = new MenuManager(AgentRank.OrganizationLeader);
         menu.Run();
     }
 }
