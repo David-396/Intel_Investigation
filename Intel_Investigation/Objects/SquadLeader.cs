@@ -8,8 +8,23 @@ using Intel_Investigation.Objects.Abstracts;
 
 namespace Intel_Investigation.Objects
 {
-    internal class SquadLeader : A_IranianAgent
+    internal class SquadLeader : FootSoldier
     {
-        public SquadLeader(string[] sensors) : base(AgentRank.SquadLeader, sensors) { }
+        public SquadLeader(string[] sensors) : base( sensors)
+        {
+            this.AgentRank = AgentRank.SquadLeader;
+        }
+
+        public override void CounterAttack()
+        {
+            base.CounterAttack();
+
+            if(this.turns % 3 == 0)
+            {
+                int index = RandInt(this.copiedSensors.Length);
+                this.copiedSensors[index] = null;
+            }
+
+        }
     }
 }

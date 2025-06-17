@@ -14,168 +14,177 @@ namespace Intel_Investigation.Menu
     internal class MenuManager
     {
         // fields to create a random rank/sensorsArr
-        static AgentRank[] iranianAgentRanks = { AgentRank.FootSoldier, AgentRank.SquadLeader };
+        static AgentRank[] allRanks = { AgentRank.FootSoldier, AgentRank.SquadLeader , AgentRank.SeniorCommander, AgentRank.OrganizationLeader};
+
+        static string[] allSensors = { "audio", "thermal", "pulse" };
 
 
-        static Dictionary<string, A_Sensor> sensorInstances = new Dictionary<string, A_Sensor> { { "basic", new BasicSensor() },
-                                                                                                 {"thermal", new ThermalSensor() },
-                                                                                                 {"pulse sensor", new PulseSensor() } };
-
-        static Dictionary<AgentRank, A_IranianAgent> agentInstances = new Dictionary<AgentRank, A_IranianAgent> { { AgentRank.FootSoldier, new FootSoldier(RandomSensorArr((int)AgentRank.FootSoldier)) },
-                                                                                                                  { AgentRank.SquadLeader, new SquadLeader(RandomSensorArr((int)AgentRank.SquadLeader)) } };
+        public A_IranianAgent currentIranianAgent;
+        public A_Sensor[] sensorsInstances;
+        public string[] currentIrnSensors;
+        public int sensorsNumber;
 
 
-        static A_IranianAgent currentIranianAgent;
-        static string[] currentIrnSensors;
-        static string[] sensorsGuessed;
-        static int sensorsNumber;
-        static int rightAnswers = 0;
-
-
-
-
-        // prints functions
-        static void PrintMenu()
+        public MenuManager(AgentRank rank)
         {
-            Console.WriteLine("hello!\nwelcome to the sensor guess game!\n");
+            this.currentIranianAgent = CreateAgent(rank);
+            this.currentIrnSensors = CopyArr(currentIranianAgent.OriginalSensors);
+            this.sensorsNumber = currentIranianAgent.SensorsNumber;
+            this.sensorsInstances = SensorsToInstance();
         }
-        static void PrintEnterIndex(int end)
+
+
+        public A_Sensor CreateSensor(string sensorName, A_IranianAgent agent)
         {
-            Console.WriteLine($"\nenter the index of the sensor you want to guess (0 - {end - 1}) : ");
-        }
-        static void PrintEnterSensor(string[] sensorArr)
-        {
-            Console.WriteLine($"\nenter the sensor you think : ");
-            PrintArr(sensorArr);
-        }
-        static void PrintWrongSensor()
-        {
-            Console.WriteLine("wrong sensor. please enter a valid one ");
-        }
-        static void PrintHowMuchRightAnswers()
-        {
-            Console.WriteLine($"you right in {rightAnswers}/{sensorsNumber}");
-        }
-        static void PrintArr(string[] arr)
-        {
-            foreach (string str in arr)
+            switch(sensorName)
             {
-                Console.Write(" - " + str);
+                case "audio":
+                    return new Audio(agent);
+
+                case "thermal":
+                    return new Thermal(agent);
+
+                case "pulse":
+                    return new Pulse(agent);
+
+                default:
+                    return null;
             }
-            Console.WriteLine();
         }
-        static void PrintRightAnswer()
+
+        // create an Iranian agent instance
+        public A_IranianAgent CreateAgent(AgentRank rank)
         {
-            Console.WriteLine("you right!");
-        }
-        static void PrintWonAndExit()
-        {
-            Console.WriteLine("you won!\nbye..");
-        }
+            switch (rank)
+            {
+                case AgentRank.FootSoldier:
+                    return new FootSoldier(RandomSensorArr((int)rank));
+
+                case AgentRank.SquadLeader:
+                    return new SquadLeader(RandomSensorArr((int)rank));
+
+                default:
+                    return null;
+            }
+        }                                                                                                            
+        
+
+
+        
+        
+
 
 
         // main function
-        public static void Run()
+        public void Run()
         {
-            CreateIranAgent(AgentRank.FootSoldier);
-            PrintMenu();
+            UI.PrintMenu();
 
             do
             {
-                PrintEnterIndex(sensorsNumber);
-                int index = GetIndex(sensorsNumber);
+                UI.PrintEnterSensor(this.currentIrnSensors);
+                string sensor = GetSensor(allSensors);
 
-                PrintEnterSensor(currentIrnSensors);
-                string sensor = GetSensor();
-                
-                if(sensor == currentIrnSensors[index])
+                if (currentIrnSensors.Contains(sensor))
                 {
-                    if(sensor != sensorsGuessed[index])
+                    A_Sensor activate_sensor = FindSensorInstance(sensor, this.sensorsInstances);
+                    if(activate_sensor != null)
                     {
-                        sensorInstances[sensor].Active();
-                        sensorsGuessed[index] = sensor;
-                        rightAnswers++;
-                        PrintRightAnswer();
+                        //this.currentIranianAgent.lastSensor = sensor;
+                        activate_sensor.Active();
 
-                    }
-                }
-                else
-                {
-                    if (sensorsGuessed[index] == currentIrnSensors[index])
-                    {
-                        sensorsGuessed[index] = sensor;
-                        if (rightAnswers > 0) rightAnswers--;
                     }
                     
                 }
+                this.currentIranianAgent.CounterAttack();
+                UI.PrintHowMuchRightAnswers(currentIranianAgent.guessedRight, sensorsNumber);
 
-                PrintHowMuchRightAnswers();
+            } while (currentIranianAgent.SensorsNumber != currentIranianAgent.guessedRight - currentIranianAgent.sensorExploded);
 
-            } while (!ArrEqual(currentIrnSensors, sensorsGuessed));
-
+            UI.PrintFinalRes(currentIranianAgent.guessedRight, currentIranianAgent.SensorsNumber);
             currentIranianAgent.Expose();
-            PrintWonAndExit();
-
+            UI.PrintWonAndExit();
+        }
+            
+            
+        public A_Sensor[] SensorsToInstance()
+        {
+            A_Sensor[] sensorsToInstances = new A_Sensor[this.sensorsNumber];
+            int i = 0;
+            foreach(string sensor in this.currentIranianAgent.OriginalSensors)
+            {
+                sensorsToInstances[i] = CreateSensor(sensor.ToLower(), this.currentIranianAgent);
+                i++;
+            }
+            return sensorsToInstances;
         }
 
+        static A_Sensor FindSensorInstance(string sensorName, A_Sensor[] sensors)
+        {
+            A_Sensor return_sensor = null;
+            foreach(A_Sensor sensor in sensors)
+            {
+                if(sensor.type == Enum.Parse<SensorType>(sensorName))
+                {
+                    if (!sensor.isActivated)
+                    {
+                        return sensor;
+                    }
+                    return_sensor = sensor;
+                }
+            }
+            return return_sensor;
+        }
 
 
         // create a random rank/sensors array
         static AgentRank RandomIranianAgentRanks()
         {
             Random rand = new Random();
-            int index = rand.Next(iranianAgentRanks.Length);
-            AgentRank randomRank = iranianAgentRanks[index];
+            int index = rand.Next(allRanks.Length);
+            AgentRank randomRank = allRanks[index];
             return randomRank;
         }
-        static string[] RandomSensorArr(int selfSensorNumber)
+        public static string[] RandomSensorArr(int selfSensorNumber)
         {
             Random rand = new Random();
-
-            string[] sensorsTypes = DictionaryKToArr(sensorInstances);
 
             string[] randomSensorsArr = new string[selfSensorNumber];
 
             int index;
             for (int i=0; i<selfSensorNumber; i++)
             {
-                index = rand.Next(sensorsTypes.Length);
-                randomSensorsArr[i] = sensorsTypes[index];
+                index = rand.Next(allSensors.Length);
+                randomSensorsArr[i] = allSensors[index];
             }
 
             return randomSensorsArr;
         }
 
 
-        // create an Iranian agent instance
-        static void CreateIranAgent(AgentRank rank)
-        {
-            currentIranianAgent = agentInstances[rank];
-            currentIrnSensors = currentIranianAgent.Sensors;
-            sensorsGuessed = new string[currentIranianAgent.SensorsNumber];
-            sensorsNumber = currentIranianAgent.SensorsNumber;
-        }
 
-
-        // get and validate the index from user
-        static int GetIndex(int limit)
+        // deep copy for an array
+        public static string[] CopyArr(string[] arr)
         {
-            int index;
-            string input = Console.ReadLine();
-            while(!(int.TryParse(input, out index) && Validation.IsBetween(index, limit)))
+            string[] newArr = new string[arr.Length];
+            int i = 0;
+            foreach(string str in  arr)
             {
-                Console.WriteLine("wrong input");
-                input = Console.ReadLine();
+                newArr[i] = str;
+                i++;
             }
-            return index;
+            return newArr;
         }
-        static string GetSensor()
+
+
+        // get and validate the sensor from user
+        static string GetSensor(string[] allNames)
         {
             string sensor = Console.ReadLine().ToLower();
 
-            while (!sensorInstances.ContainsKey(sensor) || sensor == null)
+            while (!allNames.Contains(sensor) || sensor == null)
             {
-                PrintWrongSensor();
+                UI.PrintWrongSensor();
                 sensor = Console.ReadLine().ToLower();
             }
             return sensor;
@@ -183,7 +192,7 @@ namespace Intel_Investigation.Menu
 
 
         // check if two arrays equals in theirs content
-        static bool ArrEqual(string[] arr1, string[] arr2)
+        static bool IfArrEqual(string[] arr1, string[] arr2)
         {
             if (arr1.Length != arr2.Length)
             {
@@ -212,6 +221,16 @@ namespace Intel_Investigation.Menu
             return arr;
         }
         
-
+        static bool IfArrEmpty(string[] arr)
+        {
+            foreach(string val in arr)
+            {
+                if (!string.IsNullOrEmpty(val))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
