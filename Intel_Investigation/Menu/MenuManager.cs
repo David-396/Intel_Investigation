@@ -15,10 +15,13 @@ namespace Intel_Investigation.Menu
     {
         // the current agent
         public A_IranianAgent currentIranianAgent;
+
         // all the instances of the sensors to activate them 
         public A_Sensor[] sensorsInstances;
+
         // all the sensors in string - to validate the sensor input
         public string[] currentIrnSensors;
+
         // the number of the agent sensors - to show him the right answers...
         public int sensorsNumber;
 
@@ -44,6 +47,9 @@ namespace Intel_Investigation.Menu
 
                 case "pulse":
                     return new Pulse(agent);
+
+                case "motion":
+                    return new Motion(agent);
 
                 case "magnetic":
                     return new Magnetic(agent);
@@ -121,8 +127,8 @@ namespace Intel_Investigation.Menu
                     this.currentIranianAgent.cancelCounterAttackByTurns--;
                 }
 
-                // if needed to reset all the sensors lists (like organization leader after 10 turns):
-                // update the lists that saved in the menu manager to the agent list
+                /* if needed to reset all the sensors lists (like organization leader after 10 turns):
+                update the lists that saved in the menu manager to the agent list */
                 if (this.currentIranianAgent.ifReset)
                 {
                     this.UpdateSensorsLists();

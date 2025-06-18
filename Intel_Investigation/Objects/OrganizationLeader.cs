@@ -18,21 +18,26 @@ namespace Intel_Investigation.Objects
 
         public override void CounterAttack()
         {
-            this.PrintAttack();
-            this.RaiseTurn();
-
-            if (this.turns % 3 == 0)
+            base.CounterAttack();
+            
+            if(this.turns % 3 == 0 || this.turns % 10 == 0)
             {
-                this.copiedSensors[0] = null;
-            }
+                this.PrintAttack();
 
-            if(this.turns % 10 == 0)
-            {
-                this.ifReset = true;
-                this.ResetSensorsLists();
-                this.ResetGeussedRight();
-                this.ResetSensorExploded();
-                this.ResetLastSensor();
+                if (this.turns % 3 == 0)
+                {
+                    this.copiedSensors[0] = null;
+                }
+
+                if(this.turns % 10 == 0)
+                {
+                    this.ifReset = true;
+                    this.ResetSensorsLists();
+                    this.ResetGeussedRight();
+                    this.ResetSensorExploded();
+                    this.ResetLastSensor();
+
+                }
 
             }
         }
@@ -53,7 +58,7 @@ namespace Intel_Investigation.Objects
         }
         public void ResetLastSensor()
         {
-            this.lastSensor = string.Empty;
+            this.lastSensor = null;
         }
     }
 }
