@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Intel_Investigation.Enums;
+using Intel_Investigation.Objects;
 using Intel_Investigation.Objects.Abstracts;
 
 namespace Intel_Investigation.Menu
@@ -12,7 +13,7 @@ namespace Intel_Investigation.Menu
     {
         // fields to create a random rank/sensorsArr
         public static AgentRank[] allRanks = { AgentRank.FootSoldier, AgentRank.SquadLeader, AgentRank.SeniorCommander, AgentRank.OrganizationLeader };
-        public static string[] allSensors = { "audio", "thermal", "pulse" };
+        public static string[] allSensors = { "audio", "thermal", "pulse", "motion", "magnetic", "signal", "light"};
 
 
         // create a random rank/sensors array

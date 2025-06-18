@@ -10,6 +10,10 @@ namespace Intel_Investigation.Enums
     {
         audio,
         thermal,
-        pulse
+        pulse,
+        motion,
+        magnetic,
+        signal,
+        light
     }
 }

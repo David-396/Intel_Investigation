@@ -21,7 +21,7 @@ namespace Intel_Investigation.Objects
         {
             if(this.timeActivated < 3)
             {
-                this.timeActivated += 1;
+                this.timeActivated ++;
                 if(this.timeActivated == 3)
                 {
                     this.agentHolder.copiedSensors[Array.IndexOf(this.agentHolder.OriginalSensors, this.type.ToString())] = null;

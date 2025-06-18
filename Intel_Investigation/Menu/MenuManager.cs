@@ -13,10 +13,13 @@ namespace Intel_Investigation.Menu
 {
     internal class MenuManager
     {
-
+        // the current agent
         public A_IranianAgent currentIranianAgent;
+        // all the instances of the sensors to activate them 
         public A_Sensor[] sensorsInstances;
+        // all the sensors in string - to validate the sensor input
         public string[] currentIrnSensors;
+        // the number of the agent sensors - to show him the right answers...
         public int sensorsNumber;
 
 
@@ -79,28 +82,45 @@ namespace Intel_Investigation.Menu
 
             do
             {
+                // get the sensor from user - it must to be one of the known sensors from the sensors names in Statics class
                 UI.PrintEnterSensor(this.currentIrnSensors);
                 string sensor = Statics.GetSensor(Statics.allSensors);
 
+                // if the sensor in the sensors names list
                 if (currentIrnSensors.Contains(sensor))
                 {
+                    // look up for an appropriate sensor instance to activate him 
                     A_Sensor activate_sensor = FindSensorInstance(sensor, this.sensorsInstances);
 
                     if(activate_sensor != null)
                     {
+                        this.currentIranianAgent.lastSensor = activate_sensor;
                         activate_sensor.Active();
 
                     }
 
                 }
-                this.currentIranianAgent.CounterAttack();
 
+                // check if the agent can make a counter attack - agent.CounterAttack()
+                if (this.currentIranianAgent.cancelCounterAttackByTurns == 0)
+                {
+                    this.currentIranianAgent.CounterAttack();
+                }
+                // if there more turns to not allowed to make the counter attack (like magnetic sensors) - sub the turns in 1
+                else
+                {
+                    this.currentIranianAgent.cancelCounterAttackByTurns--;
+                }
+
+                // if needed to reset all the sensors lists (like organization leader after 10 turns):
+                // update the lists that saved in the menu manager to the agent list
                 if (this.currentIranianAgent.ifReset)
                 {
                     this.UpdateSensorsLists();
                     this.currentIranianAgent.ifReset = false;
                 }
 
+                // print how he answered right
                 UI.PrintHowMuchRightAnswers(currentIranianAgent.guessedRight, sensorsNumber);
 
             } while (currentIranianAgent.guessedRight != currentIranianAgent.SensorsNumber - currentIranianAgent.sensorExploded);

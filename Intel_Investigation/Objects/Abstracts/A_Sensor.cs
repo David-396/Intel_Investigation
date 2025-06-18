@@ -13,6 +13,7 @@ namespace Intel_Investigation.Objects.Abstracts
         public SensorType type {  get; }
         protected A_IranianAgent agentHolder;
         public bool isActivated = false;
+        //public int cancelCounterAttackByTurns = 0;
 
         public A_Sensor(SensorType type, A_IranianAgent agentHolder)
         {
