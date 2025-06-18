@@ -48,6 +48,12 @@ namespace Intel_Investigation.Menu
                 case "magnetic":
                     return new Magnetic(agent);
 
+                case "signal":
+                    return new Signal(agent);
+
+                case "light":
+                    return new Light(agent);
+
                 default:
                     return null;
             }
