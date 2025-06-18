@@ -17,7 +17,7 @@ namespace Intel_Investigation.Objects
         {
             if (this.isActivated)
             {
-                Console.WriteLine("you can't use this sensor again");
+                this.PrintSensorUsed();
                 return false;
             }
             base.Active();

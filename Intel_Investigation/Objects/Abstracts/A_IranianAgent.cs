@@ -20,6 +20,7 @@ namespace Intel_Investigation.Objects.Abstracts
         public A_Sensor lastSensor;
         public bool ifReset;
         public int cancelCounterAttackByTurns = 0;
+        public string[] info = new string[0];
 
 
         public A_IranianAgent(string[] Sensors)
@@ -57,12 +58,6 @@ namespace Intel_Investigation.Objects.Abstracts
         public void ResetTurns()
         {
             this.turns = 0;
-        }
-
-        public static int RandInt(int limit)
-        {
-            Random rnd = new Random();
-            return rnd.Next(limit);
         }
 
     }

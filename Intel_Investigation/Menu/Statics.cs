@@ -61,6 +61,13 @@ namespace Intel_Investigation.Menu
             return sensor;
         }
 
+        // random an int
+        public static int RandInt(int limit)
+        {
+            Random rnd = new Random();
+            return rnd.Next(limit);
+        }
+
 
 
 

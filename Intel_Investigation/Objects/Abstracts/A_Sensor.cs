@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Intel_Investigation.Enums;
 using Intel_Investigation.Objects.Interfaces;
+using Intel_Investigation.Menu;
 
 namespace Intel_Investigation.Objects.Abstracts
 {
@@ -13,7 +14,6 @@ namespace Intel_Investigation.Objects.Abstracts
         public SensorType type {  get; }
         protected A_IranianAgent agentHolder;
         public bool isActivated = false;
-        //public int cancelCounterAttackByTurns = 0;
 
         public A_Sensor(SensorType type, A_IranianAgent agentHolder)
         {
@@ -24,13 +24,41 @@ namespace Intel_Investigation.Objects.Abstracts
 
         public virtual bool Active()
         {
-            Console.WriteLine($"{this.type} sensor is active");
+            this.PrintSensorActivated();
             if (!this.isActivated)
             {
-                this.agentHolder.guessedRight++;
-                this.isActivated = true;
+                this.RaiseAnswer();
+                this.UpdateIsActivated();
             }
             return true;
+        }
+
+
+        public void RaiseAnswer()
+        {
+            this.agentHolder.guessedRight++;
+        }
+        public void UpdateIsActivated()
+        {
+            this.isActivated = true;
+        }
+        public void PrintSensorActivated()
+        {
+            Console.WriteLine($"{this.type} sensor is active");
+        }
+        public void PrintSensorUsed()
+        {
+            Console.WriteLine("you can't use this sensor again");
+        }
+
+        public void RevealInformation(int reveals, string[] info)
+        {
+            Console.WriteLine($"you revealed {reveals} information: ");
+            for (int i = 0; i < reveals; i++) 
+            {
+                int index = Statics.RandInt(info.Length);
+                Console.WriteLine(info[index]);
+            }
         }
     }
 }
