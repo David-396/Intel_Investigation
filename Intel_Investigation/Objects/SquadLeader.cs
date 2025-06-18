@@ -18,7 +18,7 @@ namespace Intel_Investigation.Objects
 
         public override void CounterAttack()
         {
-            base.CounterAttack();
+            this.RaiseTurn();
 
             if (this.turns % 3 == 0)
             {

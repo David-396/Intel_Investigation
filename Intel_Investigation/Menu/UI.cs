@@ -11,7 +11,7 @@ namespace Intel_Investigation.Menu
         // prints functions
         public static void PrintMenu()
         {
-            Console.WriteLine("hello!\nwelcome to the sensor guess game!\n");
+            Console.WriteLine("\nHELLO!\nwelcome to the sensor guess game!\n");
         }
         public static void PrintEnterSensor(string[] sensorArr)
         {
@@ -20,7 +20,7 @@ namespace Intel_Investigation.Menu
         }
         public static void PrintWrongSensor()
         {
-            Console.WriteLine("wrong sensor. please enter a valid one ");
+            Console.WriteLine("\nwrong sensor. please enter a valid one\n");
         }
         public static void PrintHowMuchRightAnswers(int howMuch, int from)
         {
@@ -40,11 +40,11 @@ namespace Intel_Investigation.Menu
         }
         public static void PrintWonAndExit()
         {
-            Console.WriteLine("you won!\nbye..");
+            Console.WriteLine("YOU WON!\n");
         }
         public static void PrintFinalRes(float howMuch, float from)
         {
-            Console.WriteLine($"your final result is : {(howMuch/from) * 100}");
+            Console.WriteLine($"your final result is : {(howMuch/from) * 100}\n\n");
         }
     }
 }

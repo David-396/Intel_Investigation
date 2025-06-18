@@ -7,7 +7,6 @@ using Intel_Investigation.Objects.Abstracts;
 using Intel_Investigation.Objects;
 using Intel_Investigation.Enums;
 using System.Collections.Generic;
-using Intel_Investigation.Validate;
 
 namespace Intel_Investigation.Menu
 {
@@ -25,6 +24,9 @@ namespace Intel_Investigation.Menu
         // the number of the agent sensors - to show him the right answers...
         public int sensorsNumber;
 
+        // the number of turns he needed to win
+        public int turns;
+
 
         public MenuManager(AgentRank rank)
         {
@@ -32,6 +34,7 @@ namespace Intel_Investigation.Menu
             this.currentIrnSensors = Statics.CopyArr(this.currentIranianAgent.OriginalSensors);
             this.sensorsNumber = currentIranianAgent.SensorsNumber;
             this.sensorsInstances = SensorsToInstance();
+            this.turns = 0;
         }
 
 
@@ -137,15 +140,16 @@ namespace Intel_Investigation.Menu
 
 
                 // print how he answered right
-                UI.PrintHowMuchRightAnswers(currentIranianAgent.guessedRight, sensorsNumber);
+                UI.PrintHowMuchRightAnswers(currentIranianAgent.guessedRight, currentIranianAgent.SensorsNumber);
+                this.turns++;
 
-            } while (currentIranianAgent.guessedRight != currentIranianAgent.SensorsNumber - currentIranianAgent.sensorExploded);
+            } while (currentIranianAgent.guessedRight != currentIranianAgent.SensorsNumber);
 
             //Console.Clear();
-            UI.PrintFinalRes(currentIranianAgent.guessedRight, currentIranianAgent.SensorsNumber);
+            UI.PrintFinalRes(currentIranianAgent.guessedRight, (int)currentIranianAgent.AgentRank);
             currentIranianAgent.Expose();
             UI.PrintWonAndExit();
-            return (currentIranianAgent.guessedRight / currentIranianAgent.SensorsNumber) * 100;
+            return (currentIranianAgent.guessedRight / (int)currentIranianAgent.AgentRank) * 100;
         }
             
 

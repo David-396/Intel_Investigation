@@ -26,15 +26,16 @@ namespace Intel_Investigation.Objects
                 {
                     this.agentHolder.copiedSensors[Array.IndexOf(this.agentHolder.OriginalSensors, this.type.ToString())] = null;
                     this.agentHolder.sensorExploded++;
-                    //this.agentHolder.guessedRight--;
-                    //this.
+                    this.agentHolder.guessedRight--;
+                    this.agentHolder.SensorsNumber--;
+                    Console.WriteLine("\n - PULSE SENSOR HAS BLOWED UP - \n");
                 }
                 return base.Active();
 
             }
             else
             {
-                Console.WriteLine("\n🔥 the sensor blow up 🔥\n");
+                Console.WriteLine("\nthis sensor blowed up\n");
                 return false;
             }
         }

@@ -14,7 +14,7 @@ namespace Intel_Investigation.Objects.Abstracts
         public string[] OriginalSensors { get; set; }
         public string[] copiedSensors { get; set; }
         public int guessedRight;
-        public int SensorsNumber {  get; }
+        public int SensorsNumber { get; set; }
         public int sensorExploded { get; set; }
         protected bool isExposed;
         public A_Sensor lastSensor;

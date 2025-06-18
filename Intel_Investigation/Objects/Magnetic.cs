@@ -22,6 +22,7 @@ namespace Intel_Investigation.Objects
             }
             base.Active();
             this.agentHolder.cancelCounterAttackByTurns = 2;
+            Console.WriteLine("- the terrorist cannot make a counter attack for 2 turns - ");
             return true;
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Intel_Investigation.Enums;
+using Intel_Investigation.Menu;
 using Intel_Investigation.Objects.Abstracts;
 
 namespace Intel_Investigation.Objects
@@ -17,9 +18,14 @@ namespace Intel_Investigation.Objects
         {
             
             base.Active();
-            Random rnd = new Random();
-            int rnd_index = rnd.Next(this.agentHolder.SensorsNumber);
-            Console.WriteLine($"you revealed  one correct sensor - {this.agentHolder.OriginalSensors[rnd_index]}");
+            int rnd_index = Statics.RandInt(this.agentHolder.SensorsNumber);
+            string sensor = this.agentHolder.copiedSensors[rnd_index];
+            //while(sensor != null)
+            //{
+            //    rnd_index = Statics.RandInt(this.agentHolder.SensorsNumber);
+            //    sensor = this.agentHolder.OriginalSensors[rnd_index];
+            //}
+            Console.WriteLine($"you revealed  one correct sensor - {sensor}");
             return true;
         }
 

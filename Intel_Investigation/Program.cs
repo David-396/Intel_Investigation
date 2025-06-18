@@ -12,19 +12,19 @@ internal class Program
 {
     public static void Play()
     {
-        MenuManager game;
+         int turns = 0;
         int levelPassed = 0;
         float levelRank = 0;
 
         foreach (AgentRank rank in Statics.allRanks)
         {
-            game = new MenuManager(rank);
+            MenuManager game = new MenuManager(rank);
             levelRank += game.Run();
             levelPassed++;
-
+            turns += game.turns;
         }
 
-        Console.WriteLine($"\nyour final result is {levelRank / levelPassed}\n");
+        Console.WriteLine($"\nyour final result is {levelRank / levelPassed}\nTURNS IN TOTAL - {turns}");
 
     }
 
