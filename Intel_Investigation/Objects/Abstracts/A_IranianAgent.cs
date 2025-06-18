@@ -20,7 +20,7 @@ namespace Intel_Investigation.Objects.Abstracts
         public A_Sensor lastSensor;
         public bool ifReset;
         public int cancelCounterAttackByTurns = 0;
-        public string[] info = new string[0];
+        public string[] info = { "name : yo" };
 
 
         public A_IranianAgent(string[] Sensors)
@@ -36,7 +36,6 @@ namespace Intel_Investigation.Objects.Abstracts
 
         public virtual void CounterAttack()
         {
-            this.PrintAttack();
             this.RaiseTurn();
         }
 

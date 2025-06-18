@@ -18,11 +18,11 @@ namespace Intel_Investigation.Objects
 
         public override void CounterAttack()
         {
-            this.PrintAttack();
-            this.RaiseTurn();
+            base.CounterAttack();
 
             if (this.turns % 3 == 0)
             {
+                this.PrintAttack();
                 for (int i = 0; i < 2; i++)
                 {
                     int index = Statics.RandInt(this.copiedSensors.Length);

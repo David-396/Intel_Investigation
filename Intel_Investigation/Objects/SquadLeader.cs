@@ -20,8 +20,9 @@ namespace Intel_Investigation.Objects
         {
             base.CounterAttack();
 
-            if(this.turns % 3 == 0)
+            if (this.turns % 3 == 0)
             {
+                this.PrintAttack();
                 int index = Statics.RandInt(this.copiedSensors.Length);
                 this.copiedSensors[index] = null;
             }
