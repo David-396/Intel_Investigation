@@ -45,6 +45,9 @@ namespace Intel_Investigation.Menu
                 case "pulse":
                     return new Pulse(agent);
 
+                case "magnetic":
+                    return new Magnetic(agent);
+
                 default:
                     return null;
             }
