@@ -15,6 +15,12 @@ namespace Intel_Investigation.Menu
         public static AgentRank[] allRanks = { AgentRank.FootSoldier, AgentRank.SquadLeader, AgentRank.SeniorCommander, AgentRank.OrganizationLeader };
         public static string[] allSensors = { "audio", "thermal", "pulse", "motion", "magnetic", "signal", "light"};
 
+        // the connection string to the DB
+        public static string connectionSTR = "server=localhost;" +
+                                             "user=root;" +
+                                             "database=sensors_investigation;" +
+                                             "port=3306;";
+
 
         // create a random rank/sensors array
         public static string[] RandomSensorArr(int selfSensorNumber, string[] allSensors)

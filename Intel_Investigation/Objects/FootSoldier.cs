@@ -9,7 +9,7 @@ using Intel_Investigation.Objects.Abstracts;
 
 namespace Intel_Investigation.Objects
 {
-    internal class FootSoldier : A_IranianAgent
+    internal class FootSoldier : IranianAgent
     {
         public FootSoldier(string[] sensors) : base( sensors)
         {

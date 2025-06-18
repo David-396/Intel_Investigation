@@ -9,9 +9,9 @@ using Intel_Investigation.Objects.Abstracts;
 
 namespace Intel_Investigation.Objects
 {
-    internal class Audio : A_Sensor
+    internal class Audio : Sensor
     {
-        public Audio(A_IranianAgent agent) : base(SensorType.audio, agent) { }
+        public Audio(IranianAgent agent) : base(SensorType.audio, agent) { }
 
 
         public override bool Active()

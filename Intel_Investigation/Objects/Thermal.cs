@@ -9,9 +9,9 @@ using Intel_Investigation.Objects.Abstracts;
 
 namespace Intel_Investigation.Objects
 {
-    internal class Thermal : A_Sensor
+    internal class Thermal : Sensor
     {
-        public Thermal(A_IranianAgent agent) : base(SensorType.thermal, agent) { }
+        public Thermal(IranianAgent agent) : base(SensorType.thermal, agent) { }
 
 
         public override bool Active()

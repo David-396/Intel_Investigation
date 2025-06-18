@@ -8,10 +8,10 @@ using Intel_Investigation.Enums;
 
 namespace Intel_Investigation.Objects
 {
-    internal class Magnetic : A_Sensor
+    internal class Magnetic : Sensor
     {
 
-        public Magnetic(A_IranianAgent agent) : base(SensorType.magnetic, agent){}
+        public Magnetic(IranianAgent agent) : base(SensorType.magnetic, agent){}
 
         public override bool Active()
         {

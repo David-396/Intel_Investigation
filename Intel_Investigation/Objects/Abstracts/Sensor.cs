@@ -9,13 +9,13 @@ using Intel_Investigation.Menu;
 
 namespace Intel_Investigation.Objects.Abstracts
 {
-    abstract class A_Sensor : IActive
+    abstract class Sensor : IActive
     {
         public SensorType type {  get; }
-        protected A_IranianAgent agentHolder;
+        protected IranianAgent agentHolder;
         public bool isActivated = false;
 
-        public A_Sensor(SensorType type, A_IranianAgent agentHolder)
+        public Sensor(SensorType type, IranianAgent agentHolder)
         {
             this.type = type;
             this.agentHolder = agentHolder;

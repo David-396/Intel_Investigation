@@ -8,11 +8,11 @@ using Intel_Investigation.Enums;
 
 namespace Intel_Investigation.Objects
 {
-    internal class Pulse : A_Sensor
+    internal class Pulse : Sensor
     {
         public int timeActivated;
 
-        public Pulse(A_IranianAgent agent) : base(SensorType.pulse, agent)
+        public Pulse(IranianAgent agent) : base(SensorType.pulse, agent)
         {
             this.timeActivated = 0;
         }

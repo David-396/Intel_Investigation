@@ -7,7 +7,7 @@ using Intel_Investigation.Enums;
 
 namespace Intel_Investigation.Objects.Abstracts
 {
-    abstract class A_IranianAgent
+    abstract class IranianAgent
     {
         public int turns;
         public AgentRank AgentRank { get; set; }
@@ -22,7 +22,7 @@ namespace Intel_Investigation.Objects.Abstracts
         protected bool isExposed;
 
 
-        public A_IranianAgent(string[] Sensors)
+        public IranianAgent(string[] Sensors)
         {
             this.OriginalSensors = Sensors;
             this.copiedSensors = Sensors;
@@ -32,6 +32,7 @@ namespace Intel_Investigation.Objects.Abstracts
             this.guessedRight = 0;
             this.turns = 0;
         }
+
 
         public virtual void CounterAttack()
         {

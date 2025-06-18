@@ -13,10 +13,10 @@ namespace Intel_Investigation.Menu
     internal class MenuManager
     {
         // the current agent
-        public A_IranianAgent currentIranianAgent;
+        public IranianAgent currentIranianAgent;
 
         // all the instances of the sensors to activate them 
-        public A_Sensor[] sensorsInstances;
+        public Sensor[] sensorsInstances;
 
         // all the sensors in string - to validate the sensor input
         public string[] currentIrnSensors;
@@ -38,7 +38,7 @@ namespace Intel_Investigation.Menu
         }
 
 
-        public A_Sensor CreateSensor(string sensorName, A_IranianAgent agent)
+        public Sensor CreateSensor(string sensorName, IranianAgent agent)
         {
             switch(sensorName)
             {
@@ -69,7 +69,7 @@ namespace Intel_Investigation.Menu
         }
 
         // create an Iranian agent instance
-        public A_IranianAgent CreateAgent(AgentRank rank)   
+        public IranianAgent CreateAgent(AgentRank rank)   
         {
             switch (rank)
             {
@@ -108,7 +108,7 @@ namespace Intel_Investigation.Menu
                 if (currentIrnSensors.Contains(sensor))
                 {
                     // look up for an appropriate sensor instance to activate him 
-                    A_Sensor activate_sensor = FindSensorInstance(sensor, this.sensorsInstances);
+                    Sensor activate_sensor = FindSensorInstance(sensor, this.sensorsInstances);
 
                     if(activate_sensor != null)
                     {
@@ -154,9 +154,9 @@ namespace Intel_Investigation.Menu
 
 
         // take a list of string sensors and returns a new list of their instances
-        public A_Sensor[] SensorsToInstance()
+        public Sensor[] SensorsToInstance()
         {
-            A_Sensor[] sensorsToInstances = new A_Sensor[this.sensorsNumber];
+            Sensor[] sensorsToInstances = new Sensor[this.sensorsNumber];
             int i = 0;
             foreach(string sensor in this.currentIranianAgent.OriginalSensors)
             {
@@ -168,10 +168,10 @@ namespace Intel_Investigation.Menu
 
 
         // returns an instance of sensor to activate
-        static A_Sensor FindSensorInstance(string sensorName, A_Sensor[] sensors)
+        static Sensor FindSensorInstance(string sensorName, Sensor[] sensors)
         {
-            A_Sensor return_sensor = null;
-            foreach(A_Sensor sensor in sensors)
+            Sensor return_sensor = null;
+            foreach(Sensor sensor in sensors)
             {
                 if(sensor.type == Enum.Parse<SensorType>(sensorName))
                 {

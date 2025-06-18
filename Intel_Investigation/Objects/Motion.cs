@@ -8,11 +8,11 @@ using Intel_Investigation.Enums;
 
 namespace Intel_Investigation.Objects
 {
-    internal class Motion : A_Sensor
+    internal class Motion : Sensor
     {
         public int timeActivated;
 
-        public Motion(A_IranianAgent agent) : base(SensorType.motion, agent)
+        public Motion(IranianAgent agent) : base(SensorType.motion, agent)
         {
             this.timeActivated = 0;
         }
