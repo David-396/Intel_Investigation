@@ -26,6 +26,8 @@ namespace Intel_Investigation.Objects
                 {
                     this.agentHolder.copiedSensors[Array.IndexOf(this.agentHolder.OriginalSensors, this.type.ToString())] = null;
                     this.agentHolder.sensorExploded++;
+                    //this.agentHolder.guessedRight--;
+                    //this.
                 }
                 return base.Active();
 

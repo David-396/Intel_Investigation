@@ -91,7 +91,7 @@ namespace Intel_Investigation.Menu
 
 
         // main function
-        public void Run()
+        public float Run()
         {
             UI.PrintMenu();
 
@@ -135,14 +135,17 @@ namespace Intel_Investigation.Menu
                     this.currentIranianAgent.ifReset = false;
                 }
 
+
                 // print how he answered right
                 UI.PrintHowMuchRightAnswers(currentIranianAgent.guessedRight, sensorsNumber);
 
             } while (currentIranianAgent.guessedRight != currentIranianAgent.SensorsNumber - currentIranianAgent.sensorExploded);
 
+            //Console.Clear();
             UI.PrintFinalRes(currentIranianAgent.guessedRight, currentIranianAgent.SensorsNumber);
             currentIranianAgent.Expose();
             UI.PrintWonAndExit();
+            return (currentIranianAgent.guessedRight / currentIranianAgent.SensorsNumber) * 100;
         }
             
 
