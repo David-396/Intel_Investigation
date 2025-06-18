@@ -35,7 +35,6 @@ namespace Intel_Investigation.Objects
                     this.ResetSensorsLists();
                     this.ResetGeussedRight();
                     this.ResetSensorExploded();
-                    this.ResetLastSensor();
 
                 }
 
@@ -56,9 +55,6 @@ namespace Intel_Investigation.Objects
         {
             this.sensorExploded = 0;
         }
-        public void ResetLastSensor()
-        {
-            this.lastSensor = null;
-        }
+
     }
 }

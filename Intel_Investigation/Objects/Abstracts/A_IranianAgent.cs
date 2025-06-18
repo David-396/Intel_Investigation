@@ -16,11 +16,10 @@ namespace Intel_Investigation.Objects.Abstracts
         public int guessedRight;
         public int SensorsNumber { get; set; }
         public int sensorExploded { get; set; }
-        protected bool isExposed;
-        public A_Sensor lastSensor;
         public bool ifReset;
         public int cancelCounterAttackByTurns = 0;
-        public string[] info = { "name : yo" };
+        public string[] info = { "name : Haminai", "age: 2376" , "address : underground"};
+        protected bool isExposed;
 
 
         public A_IranianAgent(string[] Sensors)

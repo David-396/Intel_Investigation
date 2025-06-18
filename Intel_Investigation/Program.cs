@@ -21,7 +21,7 @@ internal class Program
             MenuManager game = new MenuManager(rank);
             levelRank += game.Run();
             levelPassed++;
-            turns += game.turns;
+            turns += game.totalTurns;
         }
 
         Console.WriteLine($"\nyour final result is {levelRank / levelPassed}\nTURNS IN TOTAL - {turns}");

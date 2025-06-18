@@ -25,7 +25,7 @@ namespace Intel_Investigation.Menu
         public int sensorsNumber;
 
         // the number of turns he needed to win
-        public int turns;
+        public int totalTurns;
 
 
         public MenuManager(AgentRank rank)
@@ -34,7 +34,7 @@ namespace Intel_Investigation.Menu
             this.currentIrnSensors = Statics.CopyArr(this.currentIranianAgent.OriginalSensors);
             this.sensorsNumber = currentIranianAgent.SensorsNumber;
             this.sensorsInstances = SensorsToInstance();
-            this.turns = 0;
+            this.totalTurns = 0;
         }
 
 
@@ -101,7 +101,7 @@ namespace Intel_Investigation.Menu
             do
             {
                 // get the sensor from user - it must to be one of the known sensors from the sensors names in Statics class
-                UI.PrintEnterSensor(this.currentIrnSensors);
+                UI.PrintEnterSensor(Statics.allSensors);
                 string sensor = Statics.GetSensor(Statics.allSensors);
 
                 // if the sensor in the sensors names list
@@ -112,7 +112,6 @@ namespace Intel_Investigation.Menu
 
                     if(activate_sensor != null)
                     {
-                        this.currentIranianAgent.lastSensor = activate_sensor;
                         activate_sensor.Active();
 
                     }
@@ -141,7 +140,7 @@ namespace Intel_Investigation.Menu
 
                 // print how he answered right
                 UI.PrintHowMuchRightAnswers(currentIranianAgent.guessedRight, currentIranianAgent.SensorsNumber);
-                this.turns++;
+                this.totalTurns++;
 
             } while (currentIranianAgent.guessedRight != currentIranianAgent.SensorsNumber);
 
