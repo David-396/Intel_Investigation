@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Intel_Investigation.Objects.Abstracts;
 using Intel_Investigation.Enums;
+using Intel_Investigation.Menu;
 
 namespace Intel_Investigation.Objects
 {
@@ -24,7 +25,7 @@ namespace Intel_Investigation.Objects
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    int index = RandInt(this.copiedSensors.Length);
+                    int index = Statics.RandInt(this.copiedSensors.Length);
                     this.copiedSensors[index] = null;
                 }
             }
