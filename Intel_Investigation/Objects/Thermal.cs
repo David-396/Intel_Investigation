@@ -20,11 +20,6 @@ namespace Intel_Investigation.Objects
             base.Active();
             int rnd_index = Statics.RandInt(this.agentHolder.SensorsNumber);
             string sensor = this.agentHolder.copiedSensors[rnd_index];
-            //while(sensor != null)
-            //{
-            //    rnd_index = Statics.RandInt(this.agentHolder.SensorsNumber);
-            //    sensor = this.agentHolder.OriginalSensors[rnd_index];
-            //}
             Console.WriteLine($"you revealed  one correct sensor - {sensor}");
             return true;
         }
