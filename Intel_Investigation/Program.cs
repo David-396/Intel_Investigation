@@ -12,7 +12,7 @@ internal class Program
 {
     public static void Play()
     {
-         int turns = 0;
+        int turns = 0;
         int levelPassed = 0;
         float levelRank = 0;
 
